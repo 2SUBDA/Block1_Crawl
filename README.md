@@ -1,4 +1,4 @@
 # Block1_Crawl
-Code for IST 718 - Block 2 - Lessons 1, 2, 3
+Code for IST 718 - Block 1 - Lessons 2
 
-Each week contains sample python notebooks and data files
+Sample python notebook for EDA and Dodgers data from Miller text
