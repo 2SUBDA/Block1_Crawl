@@ -1,4 +1,6 @@
 # Block1_Crawl
-Code for IST 718 - Block 2 - Lessons 1, 2, 3
+Code for IST 718 - Block 1 - Lesson 3
 
-Each week contains sample python notebooks and data files
+Two sample notebooks from Miller
+
+Two sample notebooks for regression
