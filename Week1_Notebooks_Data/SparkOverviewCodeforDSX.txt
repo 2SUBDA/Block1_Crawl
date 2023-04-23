@@ -1,0 +1,61 @@
+
+# STEP 1 - OBTAIN
+# CHANGE Data_Frame to collisions
+
+# STEP 2
+collisions.cache()
+
+# STEP 3 - Print Schema
+print("Records: {}".format(collisions.count()))
+collisions.printSchema()
+
+# STEP 4 - Load visualization packages
+import pandas as pd
+import numpy as np
+import seaborn as sns
+
+import matplotlib.pyplot as plt
+# matplotlib.patches allows us create colored patches, we can use for legends in plots
+import matplotlib.patches as mpatches
+# seaborn also builds on matplotlib and adds graphical features and new plot types
+#adjust settings
+%matplotlib inline
+sns.set_style("white")
+plt.rcParams['figure.figsize'] = (12, 12)
+
+# STEP 5 - SCRUB
+collisions_df = collisions
+collisions_pd = collisions_df[collisions_df['LATITUDE'] != 0][['LATITUDE', 'LONGITUDE', 'DATE', 'TIME',
+                                                               'BOROUGH', 'ON STREET NAME', 'CROSS STREET NAME',
+                                                               'NUMBER OF PERSONS INJURED', 'NUMBER OF PERSONS KILLED',
+                                                               'CONTRIBUTING FACTOR VEHICLE 1']].toPandas()
+
+collisions_pd.columns = ['Latitude', 'Longitude', 'Date', 'Time', 'Borough', 'On Street',
+                         'Cross Street', 'Persons Injured', 'Persons Killed', 'Contributing Factor']
+
+collisions_pd['Latitude'] = collisions_pd['Latitude'].astype(float)
+collisions_pd['Longitude'] = collisions_pd['Longitude'].astype(float)
+collisions_pd['Persons Killed'] = collisions_pd['Persons Killed'].astype(float)
+collisions_pd['Persons Injured'] = collisions_pd['Persons Injured'].astype(float)
+
+
+
+#divide dataset in accidents which are: fatal, non-lethal but with person damage, non of the above
+killed_pd = collisions_pd[collisions_pd['Persons Killed']!=0]
+injured_pd = collisions_pd[np.logical_and(collisions_pd['Persons Injured']!=0, collisions_pd['Persons Killed']==0)]
+nothing_pd = collisions_pd[np.logical_and(collisions_pd['Persons Killed']==0, collisions_pd['Persons Injured']==0)]
+
+# STEP 6 - EXPLORE
+#create scatterplots
+plt.scatter(collisions_pd.Longitude, collisions_pd.Latitude, alpha=0.05, s=4, color='darkseagreen')
+
+#adjust more settings
+plt.title('Motor Vehicle Collisions in New York City', size=25)
+plt.xlim((-74.26,-73.7))
+plt.ylim((40.5,40.92))
+plt.xlabel('Longitude',size=20)
+plt.ylabel('Latitude',size=20)
+
+plt.show()
+
+
